@@ -1,0 +1,8 @@
+[GeneralConfiguration]
+ServerUrl = http://ssu-jira.starkindustries.com
+ProjectName = JARVIS1
+
+[DataBaseConfiguration]
+UserId = jrhodes
+Password = ironman2
+Database = JAVS
