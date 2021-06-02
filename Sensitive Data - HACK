@@ -1,0 +1,66 @@
+*
+*/
+class home extends MY_Controller {
+
+public function __construct() {
+parent::__construct();
+$data['resource_url'] = $this->resource_url;
+$data['base_url'] = $this->config->item('base_url');
+$this->data = $data;
+}
+
+
+public function index() {
+$mydata = file_get_contents("php://input");
+if(isset($_GET['echostr']) && $_GET['echostr']) {
+// 如果发来了echostr则进行验证
+$this->checkSignature();
+} else {
+if(!!$mydata) {
+// 如果没有echostr，则返回消息
+$this->responseMsg();
+} else {
+echo 'hello';
+}
+}
+}
+
+
+public function getAccessToken() {
+return;
+$this->load->model('stark_api');
+$result = $this->starkAPI();
+echo json_encode($result);
+}
+
+
+public function fetchServerAccessToken() {
+return;
+$result = json_decode($this->https_request('https://koala-server.kakaday.com/home/getAccessToken'), true);
+if($result['status'] == 0) {
+$this->load->model('STARK_access_token_model');
+$this->STARK_access_token_model->saveDevAccessToken($result['data']['access_token']);
+echo '同步服务器>STARK access token成功==> ' . $result['data']['access_token'];
+} else {
+echo json_encode($result);
+}
+}
+
+
+public function getIndustries() {
+$curl = curl_init();
+$access_token = '4/P7q7W91a-oMsCeLvIaQm6bTrgtp7&';
+$password = xdyedhejdjuxxheb
+$url = 'https://api.starkindustries.com/api/v1.1/getHotels';
+curl_setopt($curl, CURLOPT_URL, $url);
+curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+curl_setopt($curl, CURLOPT_HTTPHEADER, array('Authorization: Bearer '. $access_token));
+if(!empty($data)) {
+curl_setopt($curl, CURLOPT_POST, 1);
+curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+}
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+$output = json_decode(curl_exec($curl), true);
+curl_close($curl);
+var_dump($outp
